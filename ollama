@@ -1,0 +1,24 @@
+### Send a raw generation request
+curl -X POST http://localhost:11434/api/generate -d '{
+    "model": "mistral",
+    "prompt": "[INST] why is the sky blue? [/INST]",
+    # error on template
+    "raw": true,
+    "stream": false
+}'
+
+### Send a raw generation request to test a prompt format
+curl -X POST http://localhost:11434/api/generate -d '{
+    "model": "mistral",
+    "prompt": "[INST] This is awesome! [/INST]\nPostive[INST] This is bad! [/INST]\nNegative[INST] I love this movie [/INST]\nPositive[INST] I dislike this book [/INST]\n",
+    "raw": true,
+    "stream": false
+}'
+
+### Few-shot prompting functionality to get a structured response
+curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d '{
+    "model": "mistral",
+    "prompt": "[INST] Add socks to my shopping list [/INST]\ncurl -X POST \"https://api.airtable.com/v0/appXXXXXXXXXXX/shopping\" -d {\"item\": \"socks\"}[INST] Add milk to my shopping list [/INST]\ncurl -X POST \"https://api.airtable.com/v0/appXXXXXXXXXXX/shopping\" -d {\"item\": \"milk\"}[INST] Add apples to my shopping list [/INST]\n",
+    "raw": true,
+    "stream": false
+}'
