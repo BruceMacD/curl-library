@@ -1,8 +1,35 @@
+### Basic generate request
+curl -X POST http://localhost:11434/api/generate -d '{
+    "model": "mistral",
+    "prompt": "why is the sky blue?",
+    "stream": false
+}'
+
+### Basic generate request with context
+curl -X POST http://localhost:11434/api/generate -d '{
+    "model": "mistral",
+    "prompt": "what did I just ask?",
+    "context": [733, 16289, 28793, 28705, 2079, 349, 272, 7212, 5045, 28804, 733, 28748, 16289, 28793, 13, 1014, 7212, 8045, 5045, 2940, 298, 264, 20757, 1987, 8952, 291, 956, 21635, 28725, 690, 12022, 739, 2061, 477, 272, 4376, 791, 9664, 395, 12160, 21649, 297, 8599, 28742, 28713, 13789, 28723, 8836, 2061, 659, 264, 19367, 275, 26795, 821, 799, 9304, 304, 752, 270, 1532, 680, 5061, 28725, 579, 378, 349, 680, 3917, 298, 4563, 813, 2282, 477, 544, 14278, 28723, 1136, 264, 1204, 28725, 272, 7212, 8045, 5045, 1938, 264, 3081, 1370, 28723],
+    "stream": false
+}'
+
+### Basic generate request with history
+curl -X POST http://localhost:11434/api/generate -d '{
+    "model": "mistral",
+    "prompt": "what did I just ask?",
+    "history": [
+        {
+            "prompt": "why is the sky blue?",
+            "response": "The sky appears blue because of a phenomenon called Rayleigh scattering."
+        }
+    ],
+    "stream": false
+}'
+
 ### Send a raw generation request
 curl -X POST http://localhost:11434/api/generate -d '{
     "model": "mistral",
     "prompt": "[INST] why is the sky blue? [/INST]",
-    # error on template
     "raw": true,
     "stream": false
 }'
