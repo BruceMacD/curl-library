@@ -1,7 +1,7 @@
 ### Basic generate request
 curl -X POST http://localhost:11434/api/generate -d '{
     "model": "mistral",
-    "prompt": "why is the sky blue?",
+    "prompt": "hello, how are you?",
     "stream": false
 }'
 
@@ -13,14 +13,25 @@ curl -X POST http://localhost:11434/api/generate -d '{
     "stream": false
 }'
 
-### Basic generate request with history
+### Basic generate request with messages
 curl -X POST http://localhost:11434/api/generate -d '{
     "model": "mistral",
     "prompt": "what did I just ask?",
-    "history": [
+    "messages": [
         {
             "prompt": "why is the sky blue?",
             "response": "The sky appears blue because of a phenomenon called Rayleigh scattering."
+        }
+    ],
+    "stream": false
+}'
+
+### Basic generate request with no prompt, only messages
+curl -X POST http://localhost:11434/api/generate -d '{
+    "model": "mistral",
+    "messages": [
+        {
+            "prompt": "why is the sky blue?"
         }
     ],
     "stream": false
@@ -47,5 +58,12 @@ curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/j
     "model": "mistral",
     "prompt": "[INST] Add socks to my shopping list [/INST]\ncurl -X POST \"https://api.airtable.com/v0/appXXXXXXXXXXX/shopping\" -d {\"item\": \"socks\"}[INST] Add milk to my shopping list [/INST]\ncurl -X POST \"https://api.airtable.com/v0/appXXXXXXXXXXX/shopping\" -d {\"item\": \"milk\"}[INST] Add apples to my shopping list [/INST]\n",
     "raw": true,
+    "stream": false
+}'
+
+### Generate request with non-existent model
+curl -X POST http://localhost:11434/api/generate -d '{
+    "model": "mistral-does-not-exist",
+    "prompt": "hello",
     "stream": false
 }'
