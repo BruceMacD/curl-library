@@ -1,69 +1,83 @@
+### Load a model
+curl http://localhost:11434/api/generate -d '{
+    "model": "mistral"
+}'
+
 ### Basic generate request
-curl -X POST http://localhost:11434/api/generate -d '{
+curl http://localhost:11434/api/generate -d '{
     "model": "mistral",
     "prompt": "hello, how are you?",
-    "stream": false
+    "system": "system message"
 }'
 
 ### Basic generate request with context
-curl -X POST http://localhost:11434/api/generate -d '{
+curl http://localhost:11434/api/generate -d '{
     "model": "mistral",
     "prompt": "what did I just ask?",
     "context": [733, 16289, 28793, 28705, 2079, 349, 272, 7212, 5045, 28804, 733, 28748, 16289, 28793, 13, 1014, 7212, 8045, 5045, 2940, 298, 264, 20757, 1987, 8952, 291, 956, 21635, 28725, 690, 12022, 739, 2061, 477, 272, 4376, 791, 9664, 395, 12160, 21649, 297, 8599, 28742, 28713, 13789, 28723, 8836, 2061, 659, 264, 19367, 275, 26795, 821, 799, 9304, 304, 752, 270, 1532, 680, 5061, 28725, 579, 378, 349, 680, 3917, 298, 4563, 813, 2282, 477, 544, 14278, 28723, 1136, 264, 1204, 28725, 272, 7212, 8045, 5045, 1938, 264, 3081, 1370, 28723],
     "stream": false
 }'
 
-### Basic generate request with messages
-curl -X POST http://localhost:11434/api/generate -d '{
+### Basic chat request with messages
+curl http://localhost:11434/api/chat -d '{
     "model": "mistral",
-    "prompt": "what did I just ask?",
     "messages": [
         {
-            "prompt": "why is the sky blue?",
-            "response": "The sky appears blue because of a phenomenon called Rayleigh scattering."
+            "role": "user",
+            "content": "why is the sky blue?"
         }
     ],
     "stream": false
 }'
 
-### Basic generate request with no prompt, only messages
-curl -X POST http://localhost:11434/api/generate -d '{
+### Basic chat request with messages
+curl http://localhost:11434/api/chat -d '{
     "model": "mistral",
     "messages": [
         {
-            "prompt": "why is the sky blue?"
+            "role": "user",
+            "content": "hi"
+        },
+        {
+            "role": "assistant",
+            "content": "hello"
+        },
+        {
+            "role": "user",
+            "content": "my name is bob"
+        },
+        {
+            "role": "assistant",
+            "content": "nice"
+        },
+        {
+            "role": "user",
+            "content": "what is my name?"
         }
-    ],
-    "stream": false
+    ]
 }'
 
 ### Send a raw generation request
-curl -X POST http://localhost:11434/api/generate -d '{
-    "model": "mistral",
-    "prompt": "[INST] why is the sky blue? [/INST]",
-    "raw": true,
-    "stream": false
-}'
-
-### Send a raw generation request to test a prompt format
-curl -X POST http://localhost:11434/api/generate -d '{
+curl http://localhost:11434/api/generate -d '{
     "model": "mistral",
     "prompt": "[INST] This is awesome! [/INST]\nPostive[INST] This is bad! [/INST]\nNegative[INST] I love this movie [/INST]\nPositive[INST] I dislike this book [/INST]\n",
     "raw": true,
     "stream": false
 }'
 
-### Few-shot prompting functionality to get a structured response
-curl -X POST http://localhost:11434/api/generate -H "Content-Type: application/json" -d '{
-    "model": "mistral",
-    "prompt": "[INST] Add socks to my shopping list [/INST]\ncurl -X POST \"https://api.airtable.com/v0/appXXXXXXXXXXX/shopping\" -d {\"item\": \"socks\"}[INST] Add milk to my shopping list [/INST]\ncurl -X POST \"https://api.airtable.com/v0/appXXXXXXXXXXX/shopping\" -d {\"item\": \"milk\"}[INST] Add apples to my shopping list [/INST]\n",
-    "raw": true,
-    "stream": false
+### Basic embedding request
+curl http://localhost:11434/api/embeddings -d '{
+    "model": "orca-ggml",
+    "prompt": "hello, how are you?"
 }'
 
-### Generate request with non-existent model
-curl -X POST http://localhost:11434/api/generate -d '{
-    "model": "mistral-does-not-exist",
-    "prompt": "hello",
-    "stream": false
+### Create a model
+curl http://localhost:11434/api/create -d '{
+    "name": "brxce:test",
+    "path": "/Users/bruce/models/nous-capybara/Modelfile"
+}'
+
+### Show a model
+curl http://localhost:11434/api/show -d '{
+    "name": "brxce/monadgpt"
 }'
